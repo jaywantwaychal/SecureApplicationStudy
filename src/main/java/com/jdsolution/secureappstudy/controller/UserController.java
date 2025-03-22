@@ -1,8 +1,6 @@
 package com.jdsolution.secureappstudy.controller;
 
-import com.jdsolution.secureappstudy.entity.AppUser;
 import com.jdsolution.secureappstudy.entity.AuthUsers;
-import com.jdsolution.secureappstudy.service.AppUserService;
 import com.jdsolution.secureappstudy.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +16,21 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private AppUserService appUserService;
-
-    @Autowired
     private AuthUserService authUserService;
 
-    @PostMapping("/adduser")
+    @PostMapping("/register")
     public AuthUsers addUser(@RequestBody AuthUsers authUsers) {
         return authUserService.addUser(authUsers);
     }
 
+    @PostMapping("/logtoapp")
+    public String login(@RequestBody AuthUsers authUsers) {
+        String s= authUserService.login(authUsers);
+        return s;
+    }
+
     @GetMapping
     public ResponseEntity<List<AuthUsers>> getMessage() {
-        return ResponseEntity.of(Optional.ofNullable(appUserService.getUsers()));
+        return ResponseEntity.of(Optional.ofNullable(authUserService.getUsers()));
     }
 }
